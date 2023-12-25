@@ -8,9 +8,15 @@ export class UserRepositoryImpl implements UserRepository {
   findUserById(uuid: string): Promise<UserEntity | null> {
     return this.userDatasource.findUserByIdImpl(uuid);
   }
+
+  loginUser(email: string, password: string): Promise<UserEntity | null> {
+    return this.userDatasource.loginImpl(email, password);
+  }
+
   registerUser(user: UserEntity): Promise<UserEntity | null> {
     return this.userDatasource.registerUserImpl(user);
   }
+
   listUser(): Promise<UserEntity[] | null> {
     return this.userDatasource.listUserImpl();
   }
