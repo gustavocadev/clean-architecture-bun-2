@@ -1,0 +1,22 @@
+{
+  "name": "clean-architecture-bun",
+  "module": "./src/main.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch ./src/main.ts",
+    "db:push": "drizzle-kit push:sqlite"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.8",
+    "bun-types": "latest",
+    "drizzle-kit": "^0.20.7"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.2.2",
+    "drizzle-orm": "^0.29.1",
+    "hono": "^3.11.10"
+  }
+}
