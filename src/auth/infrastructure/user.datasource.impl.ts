@@ -11,7 +11,7 @@ export class UserDatasourceImpl implements UserDatasource {
   }
   async registerUserImpl(user: UserEntity): Promise<UserEntity | null> {
     console.log(user);
-    console.log(await db.select().from(users).run());
+    console.log(await db.select().from(users));
 
     return UserMapper.userEntityFromObject(user);
   }

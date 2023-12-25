@@ -22,6 +22,10 @@ export class Server {
     // routes
     this.app.route('/', this.routes);
 
-    Deno.serve({ port: this.port }, this.app.fetch);
+    console.log('Running Server...');
+    Bun.serve({
+      fetch: this.app.fetch,
+      port: this.port,
+    });
   }
 }

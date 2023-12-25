@@ -5,8 +5,8 @@ import process from 'node:process';
 export default {
   schema: './src/data/drizzle/schema.ts',
   out: './drizzle',
-  driver: 'better-sqlite',
+  driver: 'pg',
   dbCredentials: {
-    url: process.env.DB_URL!,
+    connectionString: `${process.env.POSTGRES_URL!}?sslmode=require`,
   },
 } satisfies Config;
