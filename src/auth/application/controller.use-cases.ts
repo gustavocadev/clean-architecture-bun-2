@@ -15,6 +15,21 @@ export class AuthControllerUseCases {
     });
   };
 
+  loginUser = async (ctx: Context) => {
+    const body = await ctx.req.json<{
+      password: string;
+      email: string;
+    }>();
+
+    const { email, password } = body;
+
+    const user = await this.userRepository.loginUser(email, password);
+
+    return ctx.json({
+      user,
+    });
+  };
+
   getUsers = async (ctx: Context) => {
     const all_users = await db.select().from(users);
     return ctx.json({
