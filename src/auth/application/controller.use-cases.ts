@@ -6,16 +6,19 @@ import { users } from '../../data/drizzle/schema.ts';
 export class AuthControllerUseCases {
   constructor(private readonly userRepository: UserRepository) {}
 
-  registerUser(ctx: Context) {
-    return ctx.json({
-      msg: 'hello from controller!',
-    });
-  }
+  registerUser = async (ctx: Context) => {
+    const body = await ctx.req.json();
 
-  async getUsers(ctx: Context) {
+    const user = await this.userRepository.registerUser(body);
+    return ctx.json({
+      user,
+    });
+  };
+
+  getUsers = async (ctx: Context) => {
     const all_users = await db.select().from(users);
     return ctx.json({
       all_users,
     });
-  }
+  };
 }
