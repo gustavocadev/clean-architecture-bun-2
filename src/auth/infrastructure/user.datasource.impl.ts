@@ -10,8 +10,12 @@ export class UserDatasourceImpl implements UserDatasource {
     throw new Error('Method not implemented.');
   }
   async registerUserImpl(user: UserEntity): Promise<UserEntity | null> {
-    console.log(user);
-    console.log(await db.select().from(users));
+    await db.insert(users).values({
+      email: user.email,
+      last_name: user.lastName,
+      name: user.name,
+      password: user.password,
+    });
 
     return UserMapper.userEntityFromObject(user);
   }
