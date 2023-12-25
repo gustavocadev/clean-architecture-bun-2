@@ -4,17 +4,14 @@ import { UserMapper } from './user.mapper.ts';
 import { db } from '../../data/drizzle/drizzle-db.ts';
 import { users } from '../../data/drizzle/schema.ts';
 import { eq } from 'drizzle-orm';
+import { HashPasswordBun } from '../../config/hashPassword.ts';
 
 // here we can already use out models from our db
 export class UserDatasourceImpl implements UserDatasource {
   constructor(
-    private hashPassword = Bun.password.hash,
-    private verifyPassword = Bun.password.verify
+    private readonly hashPassword = HashPasswordBun.hashPassword,
+    private readonly verifyPassword = HashPasswordBun.verifyPassword
   ) {}
-
-  findUserByIdImpl(uuid: string): Promise<UserEntity | null> {
-    throw new Error('Method not implemented.');
-  }
 
   async registerUserImpl(user: UserEntity): Promise<UserEntity | null> {
     // Validate if email already exists
@@ -44,6 +41,7 @@ export class UserDatasourceImpl implements UserDatasource {
   }
 
   async loginImpl(email: string, password: string): Promise<UserEntity | null> {
+    // search email in db
     const users_filtered = await db
       .select()
       .from(users)
@@ -53,10 +51,11 @@ export class UserDatasourceImpl implements UserDatasource {
 
     if (!user) return null;
 
-    return UserMapper.userEntityFromObject(user);
-  }
+    // compare password
+    const isValidPassword = await this.verifyPassword(password, user.password);
 
-  async listUserImpl(): Promise<UserEntity[] | null> {
-    throw new Error('Method not implemented.');
+    if (!isValidPassword) return null;
+
+    return UserMapper.userEntityFromObject(user);
   }
 }
