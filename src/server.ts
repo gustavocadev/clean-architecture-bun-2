@@ -7,11 +7,11 @@ type Options = {
 
 export class Server {
   public app = new Hono();
-  private readonly port: number;
+  private readonly port?: number;
   private readonly routes: Hono;
 
   constructor(options: Options) {
-    const { routes, port = 3000 } = options;
+    const { routes, port } = options;
     this.port = port;
     this.routes = routes;
   }
